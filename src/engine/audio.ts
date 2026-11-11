@@ -86,7 +86,7 @@ export class AudioSys {
     if (!this.started) return; const c = this.ctx, a = this.amb, t = c.currentTime;
     const k = 1 - Math.exp(-dt * 3);
     const set = (g: AudioParam, v: number) => { g.value += (v - g.value) * k; };
-    set(this.rainG.gain, a.rain * (a.indoor > 0.5 ? 0.10 : 0.34) * (1 - a.mem));
+    set(this.rainG.gain, a.rain * (a.indoor > 0.5 ? 0.035 : 0.13) * (1 - a.mem));
     set(this.humG.gain, a.hum * 0.5 * (1 - a.mem * 0.6));
     set(this.barG.gain, a.bar);
     set(this.roomF.frequency, a.mem > 0.5 ? 700 : a.indoor > 0.5 ? 1500 : 18000);

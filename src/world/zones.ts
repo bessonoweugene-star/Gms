@@ -148,7 +148,8 @@ export function buildResidential(o: BuildOpts): Level {
   const FY = 24;
   // megablocks. North block has interiors, so its shell has custom colliders.
   const nb = facadeMats(401, 30, 26, 'slum', 0.18);
-  L.box(33, 84, 22, -23.65, 0, -29, nb, false); L.box(33, 84, 22, 23.65, 0, -29, nb, false); L.box(14.3, 80.2, 22, 0, 3.8, -29, nb, false);
+  // one seamless shell above the lobby: separate boxes would leave their inner faces cutting through floor 7
+  L.box(80.3, 80.2, 22, 0, 3.8, -29, nb, false); L.box(33, 3.8, 22, -23.65, 0, -29, mat('concrete', { color: 0x6a625c }), false); L.box(33, 3.8, 22, 23.65, 0, -29, mat('concrete', { color: 0x6a625c }), false);
   L.col(-40.2, -7.15, -40, -18, 0, 20); L.col(7.15, 40.2, -40, -18, 0, 20); L.col(-7.2, 7.2, -40, -30.15, 0, 20);
   bld(L, -46, -24, -18, 30, 70, 402, 'slum', 0, 0.18); bld(L, 24, 46, -18, 30, 76, 403, 'slum', 0, 0.18); bld(L, -24, 24, 24, 44, 64, 404, 'slum', 0, 0.18);
   // balconies & AC on north face
