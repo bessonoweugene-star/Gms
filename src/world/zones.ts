@@ -102,7 +102,7 @@ export function buildUnderground(o: BuildOpts): Level {
   // ---- clinic
   const TW = mat('tile', { color: 0x9ac0b0 });
   L.room(8, 24, -20, -8, 0, 3.4, { wall: TW, floor: mat('tile', { color: 0x7a8a88, rep: [4, 3] }), ceil: flat(0x10140f, 0.9), skip: 's', doors: [{ side: 'n', at: 19 }] });
-  L.door(16, 0, -8, 'x', 1.6, { label: 'Клиника Сойки', color: 0x2a4a3a, locked: g => g.flag('soyka_hostile') && !g.has('i_coolant') ? 'Заперто изнутри. Сойка не хочет вас видеть. Разве что вы придёте не с пустыми руками.' : null });
+  L.door(16, 0, -8, 'x', 1.6, { label: 'Клиника Сойки', color: 0x2a4a3a, locked: g => g.flag('soyka_hostile') && !g.has('i_coolant') && g.player.pos.z > -8 ? 'Заперто изнутри. Сойка не хочет вас видеть. Разве что вы придёте не с пустыми руками.' : null });
   L.door(19, 0, -20, 'x', 1.5, { label: 'Задняя комната', color: 0x1a2a22, locked: g => g.flag('backroom_open') ? null : 'Гермодверь. Замок биометрический — открывается только изнутри или рукой Сойки.' });
   // operating chair
   L.box(0.8, 0.5, 2.0, 12, 0, -14.5, flat(0x2a3a36, 0.5, 0.5)); L.box(0.8, 0.12, 2.0, 12, 0.5, -14.5, flat(0x4a1a1a, 0.7), false);
