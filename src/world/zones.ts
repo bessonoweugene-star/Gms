@@ -108,7 +108,7 @@ export function buildUnderground(o: BuildOpts): Level {
   L.box(0.8, 0.5, 2.0, 12, 0, -14.5, flat(0x2a3a36, 0.5, 0.5)); L.box(0.8, 0.12, 2.0, 12, 0.5, -14.5, flat(0x4a1a1a, 0.7), false);
   const lampArm = L.box(0.06, 0.06, 1.4, 12, 2.9, -14.5, flat(0x8a8f96, 0.3, 0.8), false); L.add(new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.4, 0.14, 14), glow(0xd0ffe8, 2.2)), 12, 2.5, -14.5);
   const cone = lightCone(0xd0ffe8, 1.2, 2.0, 0.08); cone.position.set(12, 1.5, -14.5); L.scene.add(cone);
-  L.light(0xc0ffe0, 16, 10, 12, 2.3, -14.5); L.light(0x5affa0, 8, 9, 20, 2.6, -11);
+  L.light(0xc0ffe0, 6, 10, 12, 2.3, -14.5); L.light(0x5affa0, 4, 9, 20, 2.6, -11);
   P.table(L, 9.2, 0, -12, 0.8, 2.0, mat('metal', { color: 0x9aa0a8 }));
   for (let i = 0; i < 6; i++) L.cyl(0.03, 0.14, 9.1 + (i % 2) * 0.2, 0.8, -12.7 + i * 0.25, glow([0x5affa0, 0x55ddff, 0xff4fa0][i % 3], 1.2));
   L.box(0.5, 2.0, 3.0, 23.5, 0, -11, mat('metal', { color: 0x8a9a94 }));
@@ -147,10 +147,10 @@ export function buildResidential(o: BuildOpts): Level {
   L.ground = L.add(makeGround({ size: 240, base: 0x0c0d0e, puddle: 0.7, quality: o.quality, rain: o.rain }, o.reflections, L.fog));
   const FY = 24;
   // megablocks. North block has interiors, so its shell has custom colliders.
-  const nb = facadeMats(401, 30, 26, 'slum', 0.3);
+  const nb = facadeMats(401, 30, 26, 'slum', 0.18);
   L.box(33, 84, 22, -23.65, 0, -29, nb, false); L.box(33, 84, 22, 23.65, 0, -29, nb, false); L.box(14.3, 80.2, 22, 0, 3.8, -29, nb, false);
   L.col(-40.2, -7.15, -40, -18, 0, 20); L.col(7.15, 40.2, -40, -18, 0, 20); L.col(-7.2, 7.2, -40, -30.15, 0, 20);
-  bld(L, -46, -24, -18, 30, 70, 402, 'slum', 0, 0.3); bld(L, 24, 46, -18, 30, 76, 403, 'slum', 0, 0.3); bld(L, -24, 24, 24, 44, 64, 404, 'slum', 0, 0.3);
+  bld(L, -46, -24, -18, 30, 70, 402, 'slum', 0, 0.18); bld(L, 24, 46, -18, 30, 76, 403, 'slum', 0, 0.18); bld(L, -24, 24, 24, 44, 64, 404, 'slum', 0, 0.18);
   // balconies & AC on north face
   for (let f = 1; f < 9; f++) for (let i = 0; i < 8; i++) if ((f * 7 + i * 3) % 5 !== 0) {
     const x = -34 + i * 9.6 + (f % 2) * 2; if (Math.abs(x) < 8 && f < 2) continue;
@@ -220,7 +220,7 @@ export function buildResidential(o: BuildOpts): Level {
   L.room(1, 13, -37, -27, FY, 3, { wall: mat('panel', { color: 0x7a8088 }), floor: mat('wood', { color: 0x6a6a70 }), ceil: flat(0x0c0d10, 0.9), skip: 's', doors: [{ side: 'n', at: 8.5, w: 4.5, h: 2.3 }] });
   L.box(4.5, 2.3, 0.06, 8.5, FY, -37, glass(0x8a6ab0, 0.22), true);
   for (let i = 0; i < 10; i++) L.box(4.4, 0.04, 0.04, 8.5, FY + 0.3 + i * 0.2, -36.85, flat(0x15161a, 0.5, 0.5), false);
-  L.light(0xff4fa0, 10, 11, 8.5, FY + 1.6, -35.6); L.light(0x55ddff, 5, 7, 11, FY + 1.4, -30);
+  L.light(0xff4fa0, 10, 11, 8.5, FY + 1.6, -35.6); L.light(0x55ddff, 6, 8, 11, FY + 1.4, -30); L.light(0xffe0c0, 6, 12, 6, FY + 2.7, -31);
   L.sign('HYPERION', '#7fd4ff', 2.2, 20, FY + 5, -52, 0);
   // desk + terminal
   P.table(L, 11.2, FY, -31, 1.0, 2.4, mat('metal', { color: 0x5a6068 }));
@@ -267,7 +267,7 @@ export function buildHyperion(o: BuildOpts): Level {
   L.box(40, 200, 26, 0, 6.2, -23, tm, false);
   L.box(5.85, 6.2, 26, -17.07, 0, -23, tm, false); L.box(5.85, 6.2, 26, 17.07, 0, -23, tm, false);
   L.col(-20, -14.15, -36, -10, 0, 20); L.col(14.15, 20, -36, -10, 0, 20); L.col(-20, 20, -36, -30.15, 0, 20);
-  L.sign('HYPERION', '#bfe9ff', 5, 0, 22, -9.8, 0, { k: 2.4 });
+  L.sign('HYPERION', '#bfe9ff', 5, 0, 22, -9.8, 0, { k: 1.3 });
   L.sign('ПАМЯТЬ — ЭТО ВЫБОР', '#7fd4ff', 0.9, 0, 17.5, -9.8, 0);
   for (const x of [-19.9, 19.9]) L.box(0.25, 160, 0.25, x, 6, -9.9, glow(0x7fd4ff, 1.6), false);
   bld(L, -60, -32, -40, 34, 120, 502, 'corp', 0, 0.5); bld(L, 32, 60, -40, 34, 140, 503, 'corp', 0, 0.5); bld(L, -32, 32, 34, 56, 90, 504, 'corp', 0, 0.5);
@@ -299,7 +299,7 @@ export function buildHyperion(o: BuildOpts): Level {
     L.updaters.push((dt, t) => { const a = t * 0.22 + i * Math.PI; d.position.set(Math.cos(a) * 20, 8 + Math.sin(t + i) * 0.3, 10 + Math.sin(a * (1 + i * 0.5)) * 13); pool.position.x = d.position.x; pool.position.z = d.position.z; e.visible = Math.sin(t * 6) > 0; });
   }
   // ---- checkpoint & entrances (front wall z=-10)
-  L.room(-14, 14, -30, -10, 0, 6, { wall: mat('labfloor', { color: 0x8a9aa8 }), floor: mat('labfloor', { color: 0x5a6672, rep: [7, 5] }), ceil: flat(0x10151a, 0.6), doors: [{ side: 's', at: 0, w: 3.2, h: 3.4 }, { side: 's', at: 10, w: 1.5 }] });
+  L.room(-14, 14, -30, -10, 0, 6, { wall: mat('labfloor', { color: 0x8a9aa8 }), floor: mat('labfloor', { color: 0x5a6672, rep: [7, 5] }), ceil: flat(0x10151a, 0.95), doors: [{ side: 's', at: 0, w: 3.2, h: 3.4 }, { side: 's', at: 10, w: 1.5 }] });
   const ff = L.box(3.2, 3.4, 0.05, 0, 0, -10, new THREE.MeshBasicMaterial({ color: 0x3ac0ff, transparent: true, opacity: 0.22, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false }), false);
   const ffc = L.col(-1.6, 1.6, -10.25, -9.75, 0, 4);
   for (const s of [-1.75, 1.75]) L.box(0.12, 3.5, 0.3, s, 0, -9.8, glow(0x3ac0ff, 2), false);
@@ -312,7 +312,7 @@ export function buildHyperion(o: BuildOpts): Level {
   L.sign('СЛУЖЕБНЫЙ ВХОД', '#ffb040', 0.2, 10, 2.8, -9.78, 0);
   L.door(10, 0, -10, 'x', 1.5, { label: 'Служебный вход', locked: g => g.flag('hyp_access') || g.flag('service_open') ? null : 'Служебный шлюз заблокирован.', onLocked: g => g.story.serviceDoor(g) });
   // ---- lobby
-  L.light(0xcfeaff, 30, 22, 0, 5, -18); L.light(0x7fd4ff, 16, 16, 0, 4, -27);
+  L.light(0xcfeaff, 12, 22, 0, 5, -18); L.light(0x7fd4ff, 8, 16, 0, 4, -27);
   for (const x of [-9, 0, 9]) L.box(3, 0.06, 0.5, x, 5.9, -20, glow(0xdff4ff, 1.8), false);
   L.box(6, 1.1, 1.2, 0, 0, -20, mat('labfloor', { color: 0xa0b0c0 })); L.box(6.1, 0.05, 1.3, 0, 1.1, -20, glow(0x7fd4ff, 0.7), false);
   L.sign('HYPERION', '#bfe9ff', 1.3, 0, 4.2, -29.7, 0);
@@ -328,10 +328,10 @@ export function buildHyperion(o: BuildOpts): Level {
 
   // ---- LAB 7
   const LW = mat('labfloor', { color: 0xb8c4d0 });
-  L.room(-12, 12, -34, -14, LY, 4, { wall: LW, floor: mat('labfloor', { rep: [6, 5] }), ceil: flat(0x1a2026, 0.5) });
+  L.room(-12, 12, -34, -14, LY, 4, { wall: LW, floor: mat('labfloor', { rep: [6, 5] }), ceil: flat(0x1a2026, 0.95) });
   elevator(L, 0, LY, -14.2, 'x', 'Лифт — вестибюль', g => g.teleport('lobbyL'));
-  for (const x of [-7, 0, 7]) L.box(3.5, 0.05, 0.4, x, LY + 3.95, -24, glow(0xe8f6ff, 1.5), false);
-  L.light(0xdff0ff, 22, 18, 0, LY + 3.4, -22); L.light(0xff3a3a, 10, 10, 0, LY + 2, -31); L.light(0x3ac0ff, 10, 10, -8, LY + 2, -28);
+  for (const x of [-7, 0, 7]) L.box(3.5, 0.05, 0.4, x, LY + 3.95, -24, glow(0xe8f6ff, 1.0), false);
+  L.light(0xdff0ff, 6, 18, 0, LY + 3.4, -22); L.light(0xff3a3a, 6, 10, 0, LY + 2, -31); L.light(0x3ac0ff, 5, 10, -8, LY + 2, -28);
   L.box(24, 0.06, 0.06, 0, LY + 3.2, -33.8, glow(0xff3030, 1.6), false);
   L.sign('ЛАБ-7 • МНЕМО-АРХИТЕКТУРА', '#7fd4ff', 0.3, 0, LY + 3.4, -14.25, Math.PI);
   L.sign('ИНЦИДЕНТ • ДОСТУП ОГРАНИЧЕН', '#ff5a5a', 0.24, 0, LY + 2.8, -33.78, 0);
@@ -357,13 +357,13 @@ export function buildHyperion(o: BuildOpts): Level {
   for (const [x, z] of [[-3, -19], [3, -19]]) { P.table(L, x, LY, z, 2.2, 0.9, mat('labfloor', { color: 0xc8d2dc })); L.screen(0.7, 0.42, ['сеанс прерван', 'оператор: e.vane', '02:07:44'], x, LY + 1.05, z, Math.PI, '#7fd4ff'); }
 
   // ---- KRANE's office
-  L.room(-9, 9, -30, -12, KY, 4.5, { wall: mat('panel', { color: 0x5a6068 }), floor: mat('wood', { color: 0x3a3a40, rough: 0.25 }), ceil: flat(0x0c0e12, 0.5), doors: [{ side: 'n', at: 0, w: 15, h: 3.6 }] });
+  L.room(-9, 9, -30, -12, KY, 4.5, { wall: mat('panel', { color: 0x9aa0aa }), floor: mat('wood', { color: 0x5a5a62, rough: 0.55 }), ceil: flat(0x0c0e12, 0.95), doors: [{ side: 'n', at: 0, w: 15, h: 3.6 }] });
   L.box(15, 3.6, 0.06, 0, KY, -30, glass(0x7fb0d0, 0.12), true);
   for (const x of [-7.5, -2.5, 2.5, 7.5]) L.box(0.08, 3.6, 0.12, x, KY, -30, flat(0x0c0e12, 0.3, 0.9), false);
   elevator(L, 0, KY, -12.2, 'x', 'Лифт — вестибюль', g => g.teleport('lobbyK'));
   L.box(4.2, 0.08, 1.5, 0, KY + 0.78, -24, flat(0x08090c, 0.08, 0.9), false); L.box(0.3, 0.78, 1.2, -1.7, KY, -24, flat(0x08090c, 0.1, 0.9), false); L.box(0.3, 0.78, 1.2, 1.7, KY, -24, flat(0x08090c, 0.1, 0.9), false); L.col(-2.1, 2.1, -24.75, -23.25, KY, KY + 1);
   L.screen(0.9, 0.5, ['VEIL // развёртывание', 'готовность: 94%', 'аудит: через 3 дня', 'оригиналы: УТРАЧЕНЫ'], -1.0, KY + 1.14, -24.1, 0.25, '#bfe9ff', 'A.KRANE');
-  L.light(0xbfe0ff, 16, 14, 0, KY + 3.6, -22); L.light(0xffc890, 6, 8, -6, KY + 1.6, -15); L.light(0x3a70ff, 20, 16, 0, KY + 2, -29);
+  L.light(0xdfe8ff, 22, 18, 0, KY + 3.9, -20); L.light(0xffc890, 12, 12, -6, KY + 2.2, -15); L.light(0x5a90ff, 5, 12, 6, KY + 3.6, -27);
   L.box(0.5, 1.4, 0.5, -7, KY, -16, flat(0x08090c, 0.1, 0.9)); const art = L.add(new THREE.Mesh(new THREE.IcosahedronGeometry(0.32, 0), new THREE.MeshStandardMaterial({ color: 0xc8a050, roughness: 0.15, metalness: 1 })), -7, KY + 1.8, -16);
   L.updaters.push((dt) => { art.rotation.y += dt * 0.4; art.rotation.x += dt * 0.2; });
   L.interact(art, { label: 'Скульптура', use: g => g.examine('«Забвение», золото', 'Табличка: «Дар благодарных семей Марлоу-стрит». Интересно, помнят ли семьи, за что благодарили.') });
@@ -371,7 +371,7 @@ export function buildHyperion(o: BuildOpts): Level {
   L.npc('krane', LOOKS.krane, 0, KY, -27, 0);
 
   walkers(L, [{ z: 4, a: -22, b: 22 }, { z: 22, a: -22, b: 22 }, { x: -20, a: -4, b: 26 }], 6, 55);
-  skyTraffic(L, 50, 60, 180, 29);
+  skyTraffic(L, 50, 115, 190, 29);
   L.enableRain(Math.floor(5000 * o.rain));
   L.spawns = { metro: { x: 0, y: 0, z: 29, yaw: 0 }, lobbyL: { x: -5, y: 0, z: -27.6, yaw: Math.PI }, lobbyK: { x: 5, y: 0, z: -27.6, yaw: Math.PI }, lab: { x: 0, y: LY, z: -16.4, yaw: 0 }, krane: { x: 0, y: KY, z: -14.4, yaw: 0 }, menu: { x: 6, y: 0, z: 22, yaw: 0.2 } };
   return L;

@@ -42,7 +42,7 @@ export class Game {
   constructor() {
     try { Object.assign(this.settings, JSON.parse(localStorage.getItem(SET_KEY) || '{}')); } catch { }
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: false, powerPreference: 'high-performance' });
-    this.renderer.toneMapping = THREE.ACESFilmicToneMapping; this.renderer.toneMappingExposure = 1.15;
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping; this.renderer.toneMappingExposure = 1.25;
     this.camera = new THREE.PerspectiveCamera(this.settings.fov, innerWidth / innerHeight, 0.08, 700);
     this.camera.rotation.order = 'YXZ';
     this.post = new Post(this.renderer, new THREE.Scene(), this.camera);
@@ -76,7 +76,7 @@ export class Game {
   private bindInput() {
     document.addEventListener('pointerlockchange', () => {
       this.locked = document.pointerLockElement === this.canvas;
-      if (!this.locked && this.mode === 'play' && !this.ui.open && this.fadeTo === 0) this.ui.pause();
+      if (!this.locked && this.autoPause && this.mode === 'play' && !this.ui.open && this.fadeTo === 0) this.ui.pause();
     });
     this.canvas.addEventListener('click', () => { this.audio.start(); if (this.mode === 'play' && !this.ui.open) this.lock(); });
     let drag = false;
@@ -121,7 +121,7 @@ export class Game {
     if (!silent) this.ui.titleCard(L.name, L.sub);
   }
   rebuildZone() { const p = this.player.pos.clone(), y = this.player.yaw; this.loadZone(this.s.zone, 'metro', true); this.player.pos.copy(p); this.player.yaw = y; }
-  fast = false;
+  fast = false; autoPause = true;
   fadeOut(cb: () => void, speed = 2.6) { if (this.fast) { cb(); return; } this.fadeTo = 1; this.fadeSpeed = speed; this.fadeCb = cb; }
   private fadeSpeed = 2.6;
   teleport(spawn: string) { this.audio.sfx('door'); this.fadeOut(() => { this.place(this.level.spawns[spawn]); }); }

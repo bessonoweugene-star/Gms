@@ -39,7 +39,7 @@ export class Level {
     const s = makeSign(text, color, height, o); s.position.set(x, y, z); s.rotation.y = ry; this.scene.add(s); return s;
   }
   light(color: number, intensity: number, dist: number, x: number, y: number, z: number) {
-    const l = new THREE.PointLight(color, intensity * 3.2, dist * 1.25, 1.5); l.position.set(x, y, z); this.scene.add(l); return l;
+    const l = new THREE.PointLight(color, intensity * 1.9, dist * 1.25, 1.5); l.position.set(x, y, z); this.scene.add(l); return l;
   }
   pool(color: number, r: number, x: number, y: number, z: number, k = 0.5) { const p = lightPool(color, r, k); p.position.set(x, y, z); this.scene.add(p); return p; }
   interact<T extends THREE.Object3D>(o: T, def: InteractDef): T { o.userData.interact = def; this.targets.push(o); return o; }

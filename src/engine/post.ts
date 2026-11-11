@@ -24,7 +24,7 @@ const FinalShader = {
       vec3 col;
       col.r=texture2D(tDiffuse,uv+d).r; col.g=texture2D(tDiffuse,uv).g; col.b=texture2D(tDiffuse,uv-d).b;
       float l=dot(col,vec3(0.299,0.587,0.114));
-      vec3 mem=mix(vec3(0.015,0.04,0.10), vec3(0.50,0.92,1.0), smoothstep(0.0,0.9,l));
+      vec3 mem=mix(vec3(0.0015,0.005,0.014), vec3(0.50,0.92,1.0), smoothstep(0.0,0.9,l));
       mem+=vec3(0.65,0.15,0.75)*pow(l,2.5)*0.5;
       col=mix(col,mem,uMem*0.88);
       col*=1.0-uMem*0.10*(0.5+0.5*sin(uv.y*uRes.y*1.6));

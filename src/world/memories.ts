@@ -2,10 +2,23 @@ import * as THREE from 'three';
 import { Level } from './level';
 import { glow, makeHumanoid, makeSign, softSprite, Look } from '../engine/gfx';
 
-const dark = new THREE.MeshBasicMaterial({ color: 0x06121c });
-const darker = new THREE.MeshBasicMaterial({ color: 0x030a10 });
+/** world-space holographic grid — memory surfaces look "reconstructed" */
+function gridMat(base: number, line: number, k = 1) {
+  return new THREE.ShaderMaterial({
+    uniforms: { uBase: { value: new THREE.Color(base) }, uLine: { value: new THREE.Color(line).multiplyScalar(k) }, uTime: { value: 0 } },
+    vertexShader: `varying vec3 vW; varying vec3 vN; void main(){ vec4 w=modelMatrix*vec4(position,1.0); vW=w.xyz; vN=normalize(mat3(modelMatrix)*normal); gl_Position=projectionMatrix*viewMatrix*w; }`,
+    fragmentShader: `uniform vec3 uBase,uLine; varying vec3 vW; varying vec3 vN;
+      float ln(float v){ float f=abs(fract(v)-0.5); return smoothstep(0.47,0.5,f); }
+      void main(){ vec3 n=abs(vN); vec2 uv = n.y>0.5 ? vW.xz : (n.x>0.5 ? vW.zy : vW.xy);
+        float g=max(ln(uv.x),ln(uv.y)); float g2=max(ln(uv.x*4.0),ln(uv.y*4.0))*0.18;
+        float d=length(cameraPosition-vW); float fade=exp(-d*0.07);
+        gl_FragColor=vec4((uBase+uLine*(g*0.55+g2))*fade,1.0); }`,
+  });
+}
+const dark = gridMat(0x0a2030, 0x5ac8ff);
+const darker = gridMat(0x061420, 0x3a90c0, 0.8);
 function edgeMat(c: number, k = 1.6) { const m = new THREE.LineBasicMaterial({ color: c }); m.color.multiplyScalar(k); return m; }
-const E1 = edgeMat(0x7fe0ff), E2 = edgeMat(0xff6ad0, 1.4), E3 = edgeMat(0x4a8aa0, 0.9);
+const E1 = edgeMat(0x7fe0ff), E2 = edgeMat(0xff6ad0, 1.4), E3 = edgeMat(0x5aa8c8, 1.5);
 
 /** solid dark box with glowing edges — the "reconstructed" look of memory space */
 function wire(L: Level, w: number, h: number, d: number, x: number, y: number, z: number, collide = true, em = E3, fill: THREE.Material = dark) {

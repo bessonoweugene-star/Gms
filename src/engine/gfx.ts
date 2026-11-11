@@ -179,7 +179,7 @@ export function signTex(text: string, color: string, o: SignOpts = {}) {
 export function makeSign(text: string, color: string, height: number, o: SignOpts = {}) {
   const t = signTex(text, color, o);
   const m = new THREE.MeshBasicMaterial({ map: t, transparent: !o.bg, side: THREE.DoubleSide, depthWrite: !!o.bg });
-  m.color.setScalar(o.k ?? 2.0);
+  m.color.setScalar(o.k ?? 1.45);
   const mesh = new THREE.Mesh(new THREE.PlaneGeometry(height * (t as any).aspect, height), m);
   mesh.userData.neon = true;
   return mesh;

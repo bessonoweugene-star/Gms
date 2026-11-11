@@ -291,7 +291,7 @@ export class UI {
 
   /* ---------------- dialogue ---------------- */
   dialogue(who: string, text: string, inner: boolean, choices: any[], next: () => void, voice: number) {
-    this.dlgEl.className = 'on';
+    this.dlgEl.className = 'on'; this.root.classList.add('talk');
     this.dlgEl.innerHTML = `<div class="dbox"><div class="dwho ${inner ? 'in' : ''}">${who}</div><div class="dtext ${inner ? 'in' : ''}"></div><div class="dch"></div></div>`;
     this.dlgState = { full: text, shown: 0, done: false, choices, next, voice, t: 0 };
     (this.dlgEl.querySelector('.dtext') as HTMLElement).onclick = () => { const d = this.dlgState!; if (!d.done) this.dlgFinish(); else if (!d.choices.length) d.next(); };
@@ -303,7 +303,7 @@ export class UI {
     box.innerHTML = d.choices.map((c, i) => `<button class="ch" data-i="${i}" ${c.afford ? '' : 'disabled'}><i>${i + 1}</i>${c.tone ? `<span class="tone ${c.tone}">${TONES[c.tone]}${c.cost ? ' −' + c.cost + '₵' : ''}</span>` : c.cost ? `<span class="tone bribe">−${c.cost}₵</span>` : ''}<span>${esc(c.t)}</span></button>`).join('');
     box.querySelectorAll('.ch').forEach(b => { (b as HTMLElement).onclick = () => { this.g.audio.sfx('click'); d.choices[+(b as HTMLElement).dataset.i!].pick(); }; (b as HTMLElement).onmouseenter = () => this.g.audio.sfx('hover'); });
   }
-  closeDialogue() { this.dlgEl.className = ''; this.dlgEl.innerHTML = ''; this.dlgState = null; }
+  closeDialogue() { this.root.classList.remove('talk'); this.dlgEl.className = ''; this.dlgEl.innerHTML = ''; this.dlgState = null; }
 
   /* ---------------- ending ---------------- */
   ending(E: Ending) {

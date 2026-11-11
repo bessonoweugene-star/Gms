@@ -35,7 +35,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .toast.clue { border-color: var(--a); color: #ffe2b0; } .toast.item { border-color: var(--g); color: #c8ffe6; } .toast.warn { border-color: var(--r); color: #ffc8c8; } .toast.ded { border-color: var(--m); color: #ffd0e6; box-shadow: 0 0 1.4rem rgba(255, 79, 160, .25); }
 @keyframes tin { from { transform: translateX(2rem); opacity: 0; } } @keyframes tout { to { opacity: 0; transform: translateX(1rem); } }
 .sub { position: absolute; left: 50%; bottom: 9%; transform: translateX(-50%); width: min(52rem, 80vw); text-align: center; opacity: 0; transition: opacity .5s; text-shadow: 0 0 .5rem #000, 0 .1rem .2rem #000; }
-.sub.on { opacity: 1; }
+.sub.on { opacity: 1; } #ui.talk .sub { opacity: 0; }
 .sub b { display: block; font-size: .7rem; letter-spacing: .3em; color: var(--c); margin-bottom: .3rem; }
 .sub span { font-size: 1.12rem; line-height: 1.45; background: rgba(0, 0, 0, .45); padding: .15rem .5rem; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 .card { position: absolute; left: 6%; bottom: 20%; opacity: 0; pointer-events: none; }
@@ -184,7 +184,7 @@ button.zn:hover { border-color: var(--c); background: rgba(111, 224, 255, .14); 
 .hkeys { display: flex; gap: .4rem; flex-wrap: wrap; } .hkeys button { width: 3rem; height: 3rem; border: 1px solid var(--g); color: var(--g); font-size: 1.4rem; } .hkeys button:hover { background: rgba(90, 255, 176, .2); } .hkeys button.w { width: auto; padding: 0 .9rem; font-size: .75rem; letter-spacing: .12em; }
 
 /* ---------- cctv ---------- */
-.cc { width: min(56rem, 94vw); border-color: rgba(159, 232, 160, .4); }
+.cc { width: min(56rem, 94vw, 108vh); border-color: rgba(159, 232, 160, .4); }
 .cc canvas { width: 100%; aspect-ratio: 16/9; display: block; background: #000; border: 1px solid rgba(159, 232, 160, .3); image-rendering: pixelated; }
 .cctl { display: flex; align-items: center; gap: .6rem; margin-top: .8rem; } .cctl button { padding: .45rem .8rem; border: 1px solid rgba(159, 232, 160, .4); color: #9fe8a0; font-family: "JetBrains Mono"; font-size: .8rem; } .cctl button:hover, .cctl button.on { background: rgba(159, 232, 160, .18); }
 .ctl { position: relative; margin-top: .8rem; height: 1.6rem; } .ctl input { position: absolute; inset: 0; top: .7rem; } .ctl i { position: absolute; top: 0; width: 2px; height: .5rem; background: rgba(159, 232, 160, .6); }

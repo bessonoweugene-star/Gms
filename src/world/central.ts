@@ -93,7 +93,7 @@ export function skyTraffic(L: Level, n: number, yMin: number, yMax: number, seed
   });
 }
 export function baseLights(L: Level, sky: number, groundC: number, hemi: number, dirC: number, dir: number) {
-  L.scene.add(new THREE.HemisphereLight(sky, groundC, hemi * 2.2)); L.scene.add(new THREE.AmbientLight(sky, hemi * 0.6));
+  L.scene.add(new THREE.HemisphereLight(sky, groundC, hemi * 2.2)); L.scene.add(new THREE.AmbientLight(0xa8b4d0, hemi * 1.5));
   const d = new THREE.DirectionalLight(dirC, dir); d.position.set(-30, 80, 20); L.scene.add(d);
 }
 export function metro(L: Level, x: number, z: number, ry: number, label = 'МЕТРО • ЛИНИЯ 7') {
