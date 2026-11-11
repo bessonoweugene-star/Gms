@@ -22,7 +22,7 @@ export class Game {
   t = 0; fade = 1; fadeTo = 0; private fadeCb: (() => void) | null = null; private fadeSp = 2;
   focus: { def: InteractDef; obj: THREE.Object3D } | null = null; private ray = new THREE.Raycaster(); private look: THREE.Vector3 | null = null;
   settings = { vol: 0.8, sens: 1, quality: 'med' as 'low' | 'med' | 'high', reflections: true, fov: 72 };
-  spot = new THREE.SpotLight(0xfff0d8, 0, 36, 0.46, 0.6, 1.25); private dust!: THREE.Points; smear = 0; private crankT = 0; private coughT = 0; private lightI = 0;
+  spot = new THREE.SpotLight(0xfff0d8, 0, 42, 0.5, 0.7, 1.55); private dust!: THREE.Points; smear = 0; private crankT = 0; private coughT = 0; private lightI = 0;
 
   constructor() {
     try { Object.assign(this.settings, JSON.parse(localStorage.getItem(SET) || '{}')); } catch { }
@@ -178,11 +178,11 @@ export class Game {
     // flashlight + dynamo
     if (play && this.keys.has('KeyR')) { s.battery = Math.min(1, s.battery + dt * 0.2); if ((this.crankT -= dt) < 0) { this.crankT = 0.11; this.snd.sfx('crank'); } }
     if (s.light && this.mode !== 'menu') { s.battery = Math.max(0, s.battery - dt / 190); if (s.battery <= 0) { s.light = false; this.toast('Фонарь сел. Зажми R — крути динамо.', 'warn'); } }
-    const want = s.light && this.mode !== 'menu' && this.mode !== 'end' ? 190 * (0.2 + 0.8 * Math.min(1, s.battery * 2.2)) * (s.battery < 0.12 && Math.sin(this.t * 31) > 0.3 ? 0.35 : 1) : 0;
+    const want = s.light && this.mode !== 'menu' && this.mode !== 'end' ? 85 * (0.2 + 0.8 * Math.min(1, s.battery * 2.2)) * (s.battery < 0.12 && Math.sin(this.t * 31) > 0.3 ? 0.35 : 1) : 0;
     this.lightI += (want - this.lightI) * Math.min(1, dt * 14); this.spot.intensity = this.lightI; this.spot.castShadow = this.lightI > 1;
     const dir = new THREE.Vector3(); cam.getWorldDirection(dir); const right = new THREE.Vector3().crossVectors(dir, cam.up).normalize();
     this.spot.position.copy(cam.position).addScaledVector(right, 0.22).add(new THREE.Vector3(0, -0.16, 0)); this.spot.target.position.lerp(cam.position.clone().addScaledVector(dir, 12), Math.min(1, dt * 16));
-    const du = (this.dust.material as THREE.ShaderMaterial).uniforms; du.uT.value = this.t; du.uCam.value.copy(cam.position); du.uDir.value.copy(dir); du.uI.value = Math.min(1, this.lightI / 150) * 0.9;
+    const du = (this.dust.material as THREE.ShaderMaterial).uniforms; du.uT.value = this.t; du.uCam.value.copy(cam.position); du.uDir.value.copy(dir); du.uI.value = Math.min(1, this.lightI / 70) * 0.9;
     // air, mask, filter
     const surf = s.level === 'surface' && (this.mode === 'play' || this.mode === 'dialogue');
     if (surf && !this.ui.open) {

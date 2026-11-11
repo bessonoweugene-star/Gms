@@ -99,12 +99,12 @@ export function pbr(kind: Surf, rx = 1, ry = 1, color = 0xffffff, o: { rough?: n
 /* ---------- stained glass (the pride of the station) ---------- */
 export function stainedGlass(seed: number) {
   const [c, g] = mk(256, 512); const r = rng(seed * 97 + 5);
-  g.fillStyle = '#05060a'; g.fillRect(0, 0, 256, 512);
+  g.fillStyle = '#1a1830'; g.fillRect(0, 0, 256, 512);
   const pal = [['#ff5a3a', '#ffb040', '#3ac8ff', '#2a5aff'], ['#5affa0', '#ffe070', '#ff4f90', '#7a3aff'], ['#3ac8ff', '#fff0b0', '#ff7a3a', '#1a9a6a']][seed % 3];
-  const cell = (x: number, y: number, w: number, h: number, col: string) => { for (const mx of [1, -1]) { g.save(); g.translate(128, 0); g.scale(mx, 1); const gr = g.createLinearGradient(x, y, x + w, y + h); gr.addColorStop(0, col); gr.addColorStop(1, '#ffffff'); g.fillStyle = gr; g.globalAlpha = 0.55 + r() * 0.45; g.beginPath(); g.moveTo(x + w / 2, y); g.lineTo(x + w, y + h / 2); g.lineTo(x + w / 2, y + h); g.lineTo(x, y + h / 2); g.closePath(); g.fill(); g.restore(); } };
+  const cell = (x: number, y: number, w: number, h: number, col: string) => { for (const mx of [1, -1]) { g.save(); g.translate(128, 0); g.scale(mx, 1); const gr = g.createLinearGradient(x, y, x + w, y + h); gr.addColorStop(0, col); gr.addColorStop(1, '#ffffff'); g.fillStyle = gr; g.globalAlpha = 0.8 + r() * 0.2; g.beginPath(); g.moveTo(x + w / 2, y); g.lineTo(x + w, y + h / 2); g.lineTo(x + w / 2, y + h); g.lineTo(x, y + h / 2); g.closePath(); g.fill(); g.restore(); } };
   for (let y = 0; y < 16; y++) for (let x = 0; x < 4; x++) cell(x * 30 + 4, y * 32 + (x % 2) * 16, 28, 30, pal[(x + y + ((r() * 2) | 0)) % 4]);
   // medallion
-  g.globalAlpha = 1; g.fillStyle = '#05060a'; g.beginPath(); g.ellipse(128, 256, 92, 122, 0, 0, 7); g.fill();
+  g.globalAlpha = 1; g.fillStyle = '#141228'; g.beginPath(); g.ellipse(128, 256, 92, 122, 0, 0, 7); g.fill();
   for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2; g.fillStyle = pal[i % 4]; g.globalAlpha = 0.9; g.beginPath(); g.ellipse(128 + Math.cos(a) * 46, 256 + Math.sin(a) * 66, 20, 34, a + Math.PI / 2, 0, 7); g.fill(); }
   g.globalAlpha = 1; g.fillStyle = '#fff6d0'; g.beginPath(); g.arc(128, 256, 22, 0, 7); g.fill();
   g.strokeStyle = '#05060a'; g.lineWidth = 3; for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2; g.beginPath(); g.moveTo(128, 256); g.lineTo(128 + Math.cos(a) * 92, 256 + Math.sin(a) * 122); g.stroke(); }

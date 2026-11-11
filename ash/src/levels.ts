@@ -55,7 +55,7 @@ function can(L: Level, x: number, y: number, z: number, key: string, n = 1) {
   P.item(L, new THREE.CylinderGeometry(0.045, 0.045, 0.11, 12), flat(0xa0a4a8, 0.35, 0.8), x, y + 0.055, z, { label: 'Консервы', if: g => !g.flag(key), use: (g, o) => { g.set(key); g.addCans(n); o.visible = false; } });
 }
 export function finish(L: Level) {
-  L.scene.traverse((o: any) => { if (o.isMesh && o.material && o.material.isMeshStandardMaterial && !o.material.transparent) { o.castShadow = true; o.receiveShadow = true; } });
+  L.scene.traverse((o: any) => { if (o.isMesh && o.material && o.material.isMeshStandardMaterial && !o.material.transparent) { o.castShadow = o.material.side === THREE.FrontSide; o.receiveShadow = true; } });
   return L;
 }
 
@@ -90,11 +90,11 @@ export function buildStation(): Level {
     L.box(4, 3.2, 2.5, px, 0, s * 5.25, pbr('marble', 2, 1.6));
     L.box(4.16, 0.22, 2.66, px, 0, s * 5.25, pbr('granite', 2, 0.2), false);
     for (const side of [-1, 1]) {
-      const gz = s * 5.25 + side * 1.262, ry = side > 0 ? 0 : Math.PI;
+      const gz = s * 5.25 + side * 1.285, ry = side > 0 ? 0 : Math.PI;
       const gm = new THREE.MeshStandardMaterial({ map: glassT[gi % 6], emissiveMap: glassT[gi % 6], emissive: 0xffffff, emissiveIntensity: 0, roughness: 0.25, metalness: 0.2 });
-      const lit = (gi * 7) % 5 < 3; const base = lit ? 0.5 + ((gi * 13) % 5) * 0.09 : 0.05; const ph = gi * 1.7;
+      const lit = (gi * 7) % 5 < 4; const base = lit ? 1.1 + ((gi * 13) % 5) * 0.16 : 0.12; const ph = gi * 1.7;
       mesh(L, new THREE.PlaneGeometry(1.15, 2.3), gm, px, 1.55, gz, ry);
-      const fr = mesh(L, new THREE.BoxGeometry(1.35, 2.5, 0.05), flat(0x8a6a2a, 0.35, 0.9), px, 1.55, gz - side * 0.02, 0);
+      const fr = mesh(L, new THREE.BoxGeometry(1.36, 2.52, 0.04), flat(0x8a6a2a, 0.35, 0.9), px, 1.55, s * 5.25 + side * 1.255, 0);
       L.updaters.push((dt, t) => { gm.emissiveIntensity = base * (0.85 + Math.sin(t * 2.3 + ph) * 0.08 + (Math.sin(t * 17 + ph) > 0.985 ? -0.3 : 0)); });
       gi++;
     }
@@ -295,12 +295,11 @@ class AshFall {
 }
 function car(L: Level, x: number, z: number, ry: number, col: number, seed: number) {
   const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = ry; L.scene.add(g);
-  const paint = new THREE.MeshStandardMaterial({ color: col, roughness: 0.7, metalness: 0.4 }); const ashM = pbr('ash', 1, 1, 0xd0ccc4);
+  const paint = new THREE.MeshStandardMaterial({ color: col, roughness: 0.7, metalness: 0.4 }); const ashM = pbr('ash', 1, 1, 0xffffff);
   const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.62, 2.9, 10, 20), paint); body.rotation.z = Math.PI / 2; body.scale.set(0.74, 1, 1.42); body.position.y = 0.62; g.add(body);
   const cab = new THREE.Mesh(new THREE.SphereGeometry(1, 22, 14, 0, Math.PI * 2, 0, Math.PI / 2), paint); cab.scale.set(1.25, 0.62, 0.8); cab.position.set(-0.2, 0.95, 0); g.add(cab);
-  const glassM = new THREE.MeshStandardMaterial({ color: 0x14181a, roughness: 0.15, metalness: 0.8 }); const win = new THREE.Mesh(new THREE.SphereGeometry(1.004, 22, 10, 0, Math.PI * 2, Math.PI * 0.16, Math.PI * 0.28), glassM); win.scale.copy(cab.scale); win.position.copy(cab.position); g.add(win);
-  const ashTop = new THREE.Mesh(new THREE.SphereGeometry(1.02, 20, 8, 0, Math.PI * 2, 0, Math.PI * 0.17), ashM); ashTop.scale.copy(cab.scale); ashTop.position.copy(cab.position); g.add(ashTop);
-  const hood = new THREE.Mesh(new THREE.CapsuleGeometry(0.6, 2.7, 6, 16, ), ashM); hood.rotation.z = Math.PI / 2; hood.scale.set(0.2, 1, 1.3); hood.position.y = 1.0; g.add(hood);
+  const glassM = new THREE.MeshStandardMaterial({ color: 0x14181a, roughness: 0.15, metalness: 0.8 }); const win = new THREE.Mesh(new THREE.SphereGeometry(1.006, 22, 10, 0, Math.PI * 2, Math.PI * 0.24, Math.PI * 0.2), glassM); win.scale.copy(cab.scale); win.position.copy(cab.position); g.add(win);
+  const ashTop = new THREE.Mesh(new THREE.SphereGeometry(1.025, 22, 10, 0, Math.PI * 2, 0, Math.PI * 0.27), ashM); ashTop.scale.copy(cab.scale); ashTop.position.copy(cab.position); g.add(ashTop);
   for (const s of [-1, 1]) for (const fx of [-1.25, 1.3]) { const w = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.22, 16), flat(0x0c0c0c, 0.9)); w.rotation.x = Math.PI / 2; w.position.set(fx, 0.32, s * 0.82); g.add(w); }
   const c = Math.abs(Math.cos(ry)), s2 = Math.abs(Math.sin(ry)); const hx = 2.2 * c + 0.95 * s2, hz = 2.2 * s2 + 0.95 * c; L.col(x - hx, x + hx, z - hz, z + hz, 0, 1.6); L.solids.push(body);
   return g;
