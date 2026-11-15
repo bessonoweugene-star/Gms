@@ -6,3 +6,4 @@ node_modules
 svoi/source/*.jpg
 svoi/build/
 out/
+__pycache__/
