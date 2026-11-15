@@ -54,7 +54,7 @@ def lin(t):
 SHOTS = [
     (0.50, 2.60, "lighter", dict(t_in=0.10, speed=1.0, zoom0=1.00, zoom1=1.06)),
     (2.60, 4.60, "B", (860, 640, 900), (858, 610, 800), ease_io, {}),       # faces in firelight
-    (4.60, 6.20, "B", (360, 1060, 780), (380, 760, 780), ease_io, {}),      # flame tips -> sparks tilt up
+    (4.60, 6.20, "B", (360, 900, 780), (380, 620, 780), ease_io, {}),      # flame tips -> sparks tilt up
     (6.20, 7.30, "B", (722, 700, 760), (728, 690, 690), ease_io, {}),       # left one, bottle in hand
     (7.30, 8.00, "embers", dict(t_in=0.0, speed=1.3, zoom0=1.0, zoom1=1.08)),
     (8.00, 10.00, "A", (500, 650, 1280), (500, 610, 1160), ease_out, {}),   # suits wide, after the drop
@@ -167,8 +167,8 @@ def build_texts():
     t["t2"] = with_shadow(text_layer(["НО НЕКОТОРЫЕ", "ПИШУТСЯ ВДВОЁМ"], CORM, 76, 600, 0.16, warm))
     title = text_layer(["СВОИ"], PLAYFAIR, 250, 900, 0.10, warm, line_gap=1.0)
     t["title"] = with_shadow(title, 30, 0.7)
-    t["f1"] = text_layer(["НЕ ВСЁ В ЭТОЙ ЖИЗНИ", "МОЖНО КУПИТЬ."], CORM, 64, 500, 0.12, warm)
-    t["f2"] = text_layer(["Некоторые вещи", "просто есть."], CORM_I, 76, 500, 0.04, gold)
+    t["f1"] = text_layer(["НЕ ВСЁ В ЭТОЙ ЖИЗНИ", "МОЖНО КУПИТЬ."], CORM, 72, 500, 0.12, warm)
+    t["f2"] = text_layer(["Некоторые вещи", "просто есть."], CORM_I, 86, 500, 0.04, gold)
     return t
 
 
